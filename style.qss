@@ -1,0 +1,128 @@
+/* style.qss */
+QMainWindow {
+    background-color: #000000;
+}
+
+QDockWidget QWidget {
+    background-color: #333333;
+    color: #BFBFBF;
+}
+
+QMenuBar {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+}
+
+QMenu {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+}
+
+QMenu::item {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+}
+
+QMenu::item:selected {
+    background-color: #353535;
+}
+
+QTextEdit {
+    background-color: #1C1C1C;
+    color: #BFBFBF;
+}
+
+QLabel {
+    color: #BFBFBF;
+}
+
+QMenuBar::item {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+}
+
+QMenuBar::item:selected {
+    background-color: #353535;
+}
+
+QLineEdit {
+    background-color: #1C1C1C;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QPushButton {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QPushButton:hover {
+    background-color: #353535;
+}
+
+QPushButton:pressed {
+    background-color: #444444;
+}
+
+QComboBox {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QComboBox QListView {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QTabWidget::pane {
+    background-color: #2A2A2A;
+    border: 1px solid #555555;
+}
+
+QTabBar::tab {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+    padding: 5px;
+}
+
+QTabBar::tab:selected {
+    background-color: #353535;
+}
+
+QTreeView {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QTableView {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QHeaderView::section {
+    background-color: #2A2A2A;
+    color: #BFBFBF;
+    border: 1px solid #555555;
+}
+
+QScrollBar:horizontal {
+    background-color: #2A2A2A;
+}
+
+QScrollBar:vertical {
+    background-color: #2A2A2A;
+}
+
+QScrollBar::handle {
+    background-color: #555555;
+}
+
+QScrollBar::add-line, QScrollBar::sub-line {
+    background-color: #2A2A2A;
+}
