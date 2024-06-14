@@ -1,5 +1,4 @@
-from PyQt5.QtWidgets import QGraphicsItem, QStyleOptionGraphicsItem, QMenu, QAction, QStyle, QGraphicsEllipseItem, \
-    QGraphicsPathItem
+from PyQt5.QtWidgets import QGraphicsItem, QStyleOptionGraphicsItem, QMenu, QAction, QStyle, QGraphicsEllipseItem, QGraphicsPathItem
 from PyQt5.QtGui import QPen, QBrush, QColor, QPainter, QCursor, QPainterPath
 from PyQt5.QtCore import QRectF, QPointF, Qt
 import os
@@ -95,15 +94,16 @@ class CustomItem(QGraphicsItem):
         self.update()
 
 
-class InputPoint(QGraphicsEllipseItem):
-    def __init__(self, parent, name, x, y):
+class PointBase(QGraphicsEllipseItem):
+    def __init__(self, parent, name, color, x, y):
         diameter = CustomItem.POINT_RADIUS * 2
         super().__init__(-CustomItem.POINT_RADIUS, -CustomItem.POINT_RADIUS, diameter, diameter, parent)
-        self.setBrush(QBrush(QColor(255, 0, 0)))  # Красный цвет для InputPoint
+        self.setBrush(QBrush(color))
         self.setPen(QPen(QColor(0, 0, 0)))
         self.setFlag(QGraphicsItem.ItemIsMovable, False)
         self.setFlag(QGraphicsItem.ItemIsSelectable, False)
         self.setFlag(QGraphicsItem.ItemSendsScenePositionChanges, True)
+        self.setZValue(10)  # Устанавливаем z-значение выше других элементов
         self.name = name
         self.setPos(QPointF(x, y))
 
@@ -111,6 +111,8 @@ class InputPoint(QGraphicsEllipseItem):
         if event.button() == Qt.LeftButton:
             self.connection = Connection(self)
             self.scene().addItem(self.connection)
+            self.setZValue(20)  # Поднимаем точку при перетаскивании
+            print(f"Started dragging from {self.name}")
         super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event):
@@ -121,74 +123,51 @@ class InputPoint(QGraphicsEllipseItem):
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton and hasattr(self, 'connection'):
             target_point = self.scene().itemAt(event.scenePos(), self.scene().views()[0].transform())
-            if isinstance(target_point, OutputPoint):
+            if isinstance(target_point, PointBase) and target_point != self:
                 self.connection.set_target_point(target_point)
+                self.connections.append(self.connection)
+                target_point.connections.append(self.connection)
+                print(f"Connected {self.name} to {target_point.name}")
             else:
                 self.scene().removeItem(self.connection)
+                print(f"Connection from {self.name} was canceled")
             del self.connection
+            self.setZValue(10)  # Возвращаем z-значение
         super().mouseReleaseEvent(event)
 
-
-class OutputPoint(QGraphicsEllipseItem):
+class InputPoint(PointBase):
     def __init__(self, parent, name, x, y):
-        diameter = CustomItem.POINT_RADIUS * 2
-        super().__init__(-CustomItem.POINT_RADIUS, -CustomItem.POINT_RADIUS, diameter, diameter, parent)
-        self.setBrush(QBrush(QColor(0, 255, 0)))  # Зеленый цвет для OutputPoint
-        self.setPen(QPen(QColor(0, 0, 0)))
-        self.setFlag(QGraphicsItem.ItemIsMovable, False)
-        self.setFlag(QGraphicsItem.ItemIsSelectable, False)
-        self.setFlag(QGraphicsItem.ItemSendsScenePositionChanges, True)
-        self.name = name
-        self.setPos(QPointF(x, y))
+        super().__init__(parent, name, QColor(255, 0, 0), x, y)
 
-    def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.connection = Connection(self)
-            self.scene().addItem(self.connection)
-        super().mousePressEvent(event)
-
-    def mouseMoveEvent(self, event):
-        if hasattr(self, 'connection'):
-            self.connection.set_target_pos(event.scenePos())
-        super().mouseMoveEvent(event)
-
-    def mouseReleaseEvent(self, event):
-        if event.button() == Qt.LeftButton and hasattr(self, 'connection'):
-            target_point = self.scene().itemAt(event.scenePos(), self.scene().views()[0].transform())
-            if isinstance(target_point, InputPoint):
-                self.connection.set_target_point(target_point)
-            else:
-                self.scene().removeItem(self.connection)
-            del self.connection
-        super().mouseReleaseEvent(event)
-
+class OutputPoint(PointBase):
+    def __init__(self, parent, name, x, y):
+        super().__init__(parent, name, QColor(0, 255, 0), x, y)
 
 class Connection(QGraphicsPathItem):
     def __init__(self, start_point):
         super().__init__()
         self.start_point = start_point
-        self.target_point = None
-        self.target_pos = QPointF()
+        self.end_point = None
+        self.target_pos = start_point.scenePos()
         self.setPen(QPen(QColor(0, 0, 0), 2))
+        self.setZValue(-1)  # Устанавливаем z-значение ниже других элементов
 
     def set_target_pos(self, pos):
         self.target_pos = pos
         self.update_path()
 
-    def set_target_point(self, point):
-        self.target_point = point
-        self.target_pos = point.scenePos()
+    def set_target_point(self, end_point):
+        self.end_point = end_point
         self.update_path()
 
     def update_path(self):
         path = QPainterPath()
         start_pos = self.start_point.scenePos()
-        end_pos = self.target_pos
-        dx = abs(start_pos.x() - end_pos.x()) / 2
+        end_pos = self.target_pos if self.end_point is None else self.end_point.scenePos()
         path.moveTo(start_pos)
-        path.cubicTo(start_pos.x() + dx, start_pos.y(), end_pos.x() - dx, end_pos.y(), end_pos)
+        dx = (end_pos.x() - start_pos.x()) / 2
+        path.cubicTo(start_pos.x() + dx, start_pos.y(), end_pos.x() - dx, end_pos.y(), end_pos.x(), end_pos.y())
         self.setPath(path)
-
 
 class AddNodeMenu:
     def __init__(self, view):

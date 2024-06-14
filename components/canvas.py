@@ -1,10 +1,10 @@
-from PyQt5.QtCore import Qt, QPointF, QSize, QLineF, QPoint
-from PyQt5.QtGui import QPen, QCursor, QPainter
-from PyQt5.QtWidgets import QGraphicsView, QHBoxLayout, QLabel, QPushButton, QMenu, QDockWidget, QWidget, \
-    QGraphicsScene, QApplication, QMainWindow
-from components.custom_item import AddNodeMenu
-from components.connection import Connection
-from .custom_item import InputPoint, OutputPoint
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+import logging
+from components.custom_item import AddNodeMenu, PointBase, InputPoint, OutputPoint, Connection
+
+logging.basicConfig(level=logging.DEBUG)
 
 class CanvasView(QGraphicsView):
     MIN_SCALE = 0.1  # Минимальный коэффициент масштабирования
@@ -33,10 +33,11 @@ class CanvasView(QGraphicsView):
 
     def mousePressEvent(self, event):
         item = self.itemAt(event.pos())
-        if isinstance(item, InputPoint) or isinstance(item, OutputPoint):
+        if isinstance(item, (InputPoint, OutputPoint)):
             self.current_connection = Connection(item)
             self.scene().addItem(self.current_connection)
             self.setCursor(QCursor(Qt.CrossCursor))
+            logging.debug(f"Started dragging from {item.name}")
         elif event.button() == Qt.MiddleButton:
             self.middle_mouse_pressed = True
             self.last_pan_point = event.pos()
@@ -61,11 +62,15 @@ class CanvasView(QGraphicsView):
 
     def mouseReleaseEvent(self, event):
         if self.current_connection:
-            target_item = self.itemAt(event.pos())
-            if isinstance(target_item, InputPoint) or isinstance(target_item, OutputPoint):
+            scene_pos = self.mapToScene(event.pos())
+            target_item = self.scene().itemAt(scene_pos, self.transform())
+            logging.debug(f"Mouse released at {event.pos()}, target item: {target_item}")
+            if isinstance(target_item, (InputPoint, OutputPoint)) and target_item != self.current_connection.start_point:
                 self.current_connection.set_target_point(target_item)
+                logging.debug(f"Connected {self.current_connection.start_point.name} to {target_item.name}")
             else:
                 self.scene().removeItem(self.current_connection)
+                logging.debug(f"Connection from {self.current_connection.start_point.name} was canceled")
             self.current_connection = None
             self.setCursor(QCursor(Qt.ArrowCursor))
         elif event.button() == Qt.MiddleButton:
