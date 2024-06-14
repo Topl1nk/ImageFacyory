@@ -2,9 +2,9 @@ from PyQt5.QtCore import Qt, QPointF, QSize, QLineF, QPoint
 from PyQt5.QtGui import QPen, QCursor, QPainter
 from PyQt5.QtWidgets import QGraphicsView, QHBoxLayout, QLabel, QPushButton, QMenu, QDockWidget, QWidget, \
     QGraphicsScene, QApplication, QMainWindow
-from components.input_output_points import InputPoint, OutputPoint
 from components.custom_item import AddNodeMenu
 from components.connection import Connection
+from .custom_item import InputPoint, OutputPoint
 
 class CanvasView(QGraphicsView):
     MIN_SCALE = 0.1  # Минимальный коэффициент масштабирования
