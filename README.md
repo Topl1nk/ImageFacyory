@@ -99,4 +99,4 @@ For more detailed information and advanced usage, please refer to the source cod
 
 For issues, suggestions, or contributions, please contact the developer or create an issue in the project's repository.
 
-[![Mutable.ai Auto Wiki](https://img.shields.io/badge/Auto_Wiki-Mutable.ai-blue)](https://wiki.mutable.ai/ollama/ollama)
+[![Mutable.ai Auto Wiki](https://img.shields.io/badge/Auto_Wiki-Mutable.ai-blue)](https://wiki.mutable.ai/Topl1nk/ImageFacyory)
