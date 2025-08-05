@@ -1,0 +1,160 @@
+{
+  "nodes": [
+    {
+      "id": "node_1",
+      "class_name": "LoadImageNode",
+      "name": "Load Image",
+      "description": "Load an image from a file path",
+      "category": "Input/Output",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "input_pins": {
+        "path": {
+          "id": "path",
+          "name": "path",
+          "pin_type": "STRING",
+          "description": "File path to image",
+          "is_multiple": false,
+          "default_value": "tests/images/test_image.png"
+        }
+      },
+      "output_pins": {
+        "image": {
+          "id": "image",
+          "name": "image",
+          "pin_type": "IMAGE",
+          "description": "Loaded image",
+          "is_multiple": false
+        },
+        "width": {
+          "id": "width",
+          "name": "width",
+          "pin_type": "INT",
+          "description": "Image width",
+          "is_multiple": false
+        },
+        "height": {
+          "id": "height",
+          "name": "height",
+          "pin_type": "INT",
+          "description": "Image height",
+          "is_multiple": false
+        },
+        "filename": {
+          "id": "filename",
+          "name": "filename",
+          "pin_type": "STRING",
+          "description": "Filename without path",
+          "is_multiple": false
+        }
+      }
+    },
+    {
+      "id": "node_2",
+      "class_name": "ImagePreviewNode",
+      "name": "Image Preview",
+      "description": "Display an image preview directly in the node",
+      "category": "Input/Output",
+      "position": {
+        "x": 400,
+        "y": 100
+      },
+      "input_pins": {
+        "image": {
+          "id": "image",
+          "name": "image",
+          "pin_type": "IMAGE",
+          "description": "Image to preview",
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "image": {
+          "id": "image",
+          "name": "image",
+          "pin_type": "IMAGE",
+          "description": "Passthrough image",
+          "is_multiple": false
+        }
+      }
+    },
+    {
+      "id": "node_3",
+      "class_name": "SaveImageNode",
+      "name": "Save Image",
+      "description": "Save an image to a file path",
+      "category": "Input/Output",
+      "position": {
+        "x": 700,
+        "y": 100
+      },
+      "input_pins": {
+        "image": {
+          "id": "image",
+          "name": "image",
+          "pin_type": "IMAGE",
+          "description": "Image to save",
+          "is_multiple": false
+        },
+        "path": {
+          "id": "path",
+          "name": "path",
+          "pin_type": "STRING",
+          "description": "File path to save to",
+          "is_multiple": false,
+          "default_value": "preview_test_output.png"
+        },
+        "quality": {
+          "id": "quality",
+          "name": "quality",
+          "pin_type": "INT",
+          "description": "JPEG quality (1-100)",
+          "is_multiple": false,
+          "default_value": 95
+        },
+        "format": {
+          "id": "format",
+          "name": "format",
+          "pin_type": "STRING",
+          "description": "Image format (PNG, JPEG, etc.)",
+          "is_multiple": false,
+          "default_value": "PNG"
+        }
+      },
+      "output_pins": {
+        "success": {
+          "id": "success",
+          "name": "success",
+          "pin_type": "BOOL",
+          "description": "True if saved successfully",
+          "is_multiple": false
+        },
+        "saved_path": {
+          "id": "saved_path",
+          "name": "saved_path",
+          "pin_type": "STRING",
+          "description": "Actual path where file was saved",
+          "is_multiple": false
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn_1",
+      "from_node": "node_1",
+      "from_pin": "image",
+      "to_node": "node_2", 
+      "to_pin": "image"
+    },
+    {
+      "id": "conn_2",
+      "from_node": "node_2",
+      "from_pin": "image",
+      "to_node": "node_3",
+      "to_pin": "image"
+    }
+  ]
+}

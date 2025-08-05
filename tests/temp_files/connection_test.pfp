@@ -1,0 +1,143 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "node_1",
+      "class_name": "LoadImageNode", 
+      "name": "Load Image",
+      "description": "Load an image from a file path",
+      "category": "Input/Output",
+      "position": {
+        "x": 100,
+        "y": 100
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "path": {
+          "name": "path",
+          "type": "STRING", 
+          "direction": "INPUT",
+          "description": "File path to image",
+          "value": "tests/images/test_image.png",
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT", 
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Loaded image", 
+          "value": null,
+          "is_multiple": true
+        },
+        "width": {
+          "name": "width",
+          "type": "INT",
+          "direction": "OUTPUT",
+          "description": "Image width",
+          "value": null,
+          "is_multiple": true
+        },
+        "height": {
+          "name": "height", 
+          "type": "INT",
+          "direction": "OUTPUT",
+          "description": "Image height",
+          "value": null,
+          "is_multiple": true
+        },
+        "filename": {
+          "name": "filename",
+          "type": "STRING",
+          "direction": "OUTPUT",
+          "description": "Filename without path",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    },
+    {
+      "id": "node_2",
+      "class_name": "ImagePreviewNode",
+      "name": "Image Preview", 
+      "description": "Display an image preview directly in the node",
+      "category": "Input/Output",
+      "position": {
+        "x": 400,
+        "y": 100
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "INPUT",
+          "description": "Image to preview",
+          "value": null,
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC", 
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Passthrough image",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn_1",
+      "output_pin_id": "exec_node_1",
+      "input_pin_id": "exec_node_2",
+      "output_node_id": "node_1",
+      "input_node_id": "node_2",
+      "output_pin_name": "exec",
+      "input_pin_name": "exec"
+    },
+    {
+      "id": "conn_2", 
+      "output_pin_id": "image_node_1",
+      "input_pin_id": "image_node_2",
+      "output_node_id": "node_1",
+      "input_node_id": "node_2",
+      "output_pin_name": "image",
+      "input_pin_name": "image"
+    }
+  ]
+}

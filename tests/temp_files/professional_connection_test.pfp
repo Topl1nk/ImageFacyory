@@ -1,0 +1,134 @@
+{
+  "nodes": [
+    {
+      "class_name": "ImageLoadNode",
+      "id": "load_1",
+      "position": {"x": 100, "y": 100},
+      "name": "Image Source",
+      "pins": [
+        {
+          "name": "exec",
+          "pin_type": "EXEC",
+          "direction": "OUTPUT",
+          "value": null
+        },
+        {
+          "name": "image",
+          "pin_type": "IMAGE", 
+          "direction": "OUTPUT",
+          "value": null
+        }
+      ]
+    },
+    {
+      "class_name": "BrightnessContrastNode",
+      "id": "filter_1", 
+      "position": {"x": 400, "y": 100},
+      "name": "Filter 1",
+      "pins": [
+        {
+          "name": "exec",
+          "pin_type": "EXEC",
+          "direction": "INPUT",
+          "value": null
+        },
+        {
+          "name": "image",
+          "pin_type": "IMAGE",
+          "direction": "INPUT", 
+          "value": null
+        },
+        {
+          "name": "exec",
+          "pin_type": "EXEC",
+          "direction": "OUTPUT",
+          "value": null
+        },
+        {
+          "name": "image", 
+          "pin_type": "IMAGE",
+          "direction": "OUTPUT",
+          "value": null
+        }
+      ]
+    },
+    {
+      "class_name": "BrightnessContrastNode", 
+      "id": "filter_2",
+      "position": {"x": 400, "y": 300},
+      "name": "Filter 2",
+      "pins": [
+        {
+          "name": "exec",
+          "pin_type": "EXEC",
+          "direction": "INPUT", 
+          "value": null
+        },
+        {
+          "name": "image",
+          "pin_type": "IMAGE",
+          "direction": "INPUT",
+          "value": null
+        },
+        {
+          "name": "exec",
+          "pin_type": "EXEC", 
+          "direction": "OUTPUT",
+          "value": null
+        },
+        {
+          "name": "image",
+          "pin_type": "IMAGE",
+          "direction": "OUTPUT",
+          "value": null
+        }
+      ]
+    },
+    {
+      "class_name": "ImagePreviewNode",
+      "id": "preview_1", 
+      "position": {"x": 700, "y": 200},
+      "name": "Preview", 
+      "pins": [
+        {
+          "name": "exec",
+          "pin_type": "EXEC",
+          "direction": "INPUT",
+          "value": null
+        },
+        {
+          "name": "image",
+          "pin_type": "IMAGE",
+          "direction": "INPUT",
+          "value": null
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "output_node_id": "load_1",
+      "output_pin_name": "exec", 
+      "input_node_id": "filter_1",
+      "input_pin_name": "exec"
+    },
+    {
+      "output_node_id": "load_1",
+      "output_pin_name": "image",
+      "input_node_id": "filter_1", 
+      "input_pin_name": "image"
+    },
+    {
+      "output_node_id": "filter_1", 
+      "output_pin_name": "exec",
+      "input_node_id": "preview_1",
+      "input_pin_name": "exec"
+    },
+    {
+      "output_node_id": "filter_1",
+      "output_pin_name": "image",
+      "input_node_id": "preview_1",
+      "input_pin_name": "image"
+    }
+  ]
+}

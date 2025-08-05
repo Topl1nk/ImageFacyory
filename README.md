@@ -1,102 +1,184 @@
-# ImageFacyory
- 
-## User Documentation for Image Factory
+# PixelFlow Studio 🎨
 
-### Overview
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![PySide6](https://img.shields.io/badge/PySide6-6.6+-green.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Tests](https://img.shields.io/badge/tests-pytest-orange.svg)
 
-Image Factory is a node-based graphical application designed for creating and manipulating images through a modular, visual interface. Users can add, configure, and connect various nodes to build complex image processing workflows.
+**Профессиональная студия для обработки изображений с нодовым интерфейсом**
 
-### Installation
+PixelFlow Studio - это современное приложение для обработки изображений, построенное на принципах визуального программирования. Вдохновленное лучшими практиками Blender, Unreal Engine и Substance Designer.
 
-1. **Download and Install Python**: Ensure Python 3.9 is installed on your system.
-   - You can download Python from the official [Python website](https://www.python.org/downloads/).
+## ✨ Особенности
 
-2. **Install Required Packages**: Use `pip` to install the necessary Python packages.
-   ```bash
-   pip install PyQt5
-   ```
+- 🎯 **Современная архитектура MVVM** - четкое разделение бизнес-логики и UI
+- 🔧 **Типизированная система нодов** - безопасные соединения с проверкой типов
+- 🎨 **Профессиональный интерфейс** - современный UI с поддержкой тем
+- 🔌 **Система плагинов** - легкое создание пользовательских нодов
+- ⚡ **Асинхронное выполнение** - неблокирующая обработка изображений
+- 🧪 **Полное тестирование** - unit и integration тесты
+- 📚 **Подробная документация** - comprehensive API reference
 
-3. **Download Image Factory**: Clone or download the repository from the provided source.
+## 🚀 Быстрый старт
 
-### Running the Application
+### Требования
 
-1. **Navigate to the Project Directory**: Open a terminal or command prompt and navigate to the directory where the application files are located.
-   ```bash
-   cd path/to/ImageFactory
-   ```
+- Python 3.10+
+- PySide6 6.6+
+- pip или poetry
 
-2. **Run the Application**: Execute the main script to launch the application.
-   ```bash
-   python main.py
-   ```
+### Установка
 
-### User Interface
+```bash
+# Клонируем репозиторий
+git clone https://github.com/pixelflow/studio.git
+cd studio
 
-#### Main Window
+# Устанавливаем зависимости
+pip install -e .
 
-- **Menu Bar**: Contains options for File and Window operations.
-  - **File Menu**:
-    - `New Factory`: Create a new factory (workflow).
-    - `New Node`: Add a new node to the canvas.
-    - `Settings`: Open the settings dialog to configure application settings.
-  - **Window Menu**: Toggle visibility of various dockable panels (Parameters, Canvas, Text Editor, Image Viewer).
+# Для разработки
+pip install -e ".[dev]"
+```
 
-#### Dockable Panels
+### Запуск
 
-- **Parameters Dock**: Displays parameters and settings for the selected node.
-- **Canvas Dock**: The main working area where nodes are added and connected.
-- **Text Editor Dock**: Provides a text editing area for writing and editing scripts.
-- **Image Viewer Dock**: Displays the output of the image processing workflow.
+```bash
+# Запуск приложения
+pixelflow
 
-### Adding and Configuring Nodes
+# Или через Python
+python -m pixelflow_studio
+```
 
-1. **Adding a Node**:
-   - Right-click on the canvas to open the context menu.
-   - Select the desired node type from the menu to add it to the canvas.
+## 🏗️ Архитектура
 
-2. **Configuring a Node**:
-   - Select a node on the canvas to display its parameters in the Parameters Dock.
-   - Adjust the parameters as needed.
+```
+src/pixelflow_studio/
+├── core/           # Ядро системы - базовые абстракции
+├── models/         # Модели данных и бизнес-логика
+├── views/          # UI компоненты и виджеты
+├── viewmodels/     # Связующий слой между моделями и видами
+├── nodes/          # Встроенные ноды для обработки изображений
+├── plugins/        # Система плагинов и пользовательские ноды
+├── utils/          # Утилиты и вспомогательные функции
+└── resources/      # Ресурсы (иконки, темы, переводы)
+```
 
-3. **Connecting Nodes**:
-   - Click and drag from the output point of one node to the input point of another to create a connection.
+### Основные принципы
 
-### Settings
+1. **MVVM архитектура** - четкое разделение ответственности
+2. **Type Safety** - полная типизация с mypy
+3. **Async/Await** - неблокирующие операции
+4. **Signal/Slot** - слабая связанность компонентов
+5. **Plugin Architecture** - расширяемость без изменения ядра
+6. **Comprehensive Testing** - высокое покрытие тестами
 
-1. **Open Settings Dialog**:
-   - Go to `File` > `Settings` to open the settings dialog.
+## 🎨 Создание пользовательских нодов
 
-2. **Configure Scripts Folder**:
-   - Use the `Browse` button to select the directory containing your custom script nodes.
-   - Click `Save Settings` to apply the changes immediately.
+```python
+from pixelflow_studio.nodes.base import ImageProcessingNode
+from pixelflow_studio.core.types import PinType
+from PIL import Image, ImageFilter
 
-### Troubleshooting
+class BlurNode(ImageProcessingNode):
+    """Нод для размытия изображения"""
+    
+    def __init__(self) -> None:
+        super().__init__(
+            name="Blur Effect",
+            description="Применяет гауссово размытие к изображению",
+            category="Filter"
+        )
+    
+    def setup_pins(self) -> None:
+        # Входы
+        self.add_input_pin("image", PinType.IMAGE, "Входное изображение")
+        self.add_input_pin("radius", PinType.FLOAT, "Радиус размытия", default=2.0)
+        
+        # Выходы  
+        self.add_output_pin("result", PinType.IMAGE, "Размытое изображение")
+    
+    async def process(self) -> None:
+        image = await self.get_input_value("image")
+        radius = await self.get_input_value("radius")
+        
+        if image is not None:
+            blurred = image.filter(ImageFilter.GaussianBlur(radius=radius))
+            await self.set_output_value("result", blurred)
+```
 
-- **Invalid Script Directory**: Ensure the script directory set in the settings dialog contains valid Python scripts for nodes.
-- **Nodes Not Loading**: If nodes do not appear in the context menu, check the console for errors and ensure the script directory is correctly configured.
-- **Application Not Starting**: Verify that all dependencies are installed and that you are using the correct Python version.
+## 🧪 Тестирование
 
-### Additional Information
+```bash
+# Запуск всех тестов
+pytest
 
-- **Custom Node Development**:
-  - Create new node classes by subclassing `NodeBase`.
-  - Place your custom node scripts in the directory specified in the settings.
-  
-- **Styling**:
-  - The application supports custom stylesheets. Edit `style.qss` to change the appearance of the application.
+# Только unit тесты
+pytest tests/unit
 
-### Example Workflow
+# С покрытием
+pytest --cov=pixelflow_studio
 
-1. **Start the Application**: Run `main.py` to open the main window.
-2. **Add Nodes**: Right-click on the canvas and add the desired nodes.
-3. **Connect Nodes**: Drag connections between nodes to build your workflow.
-4. **Configure Nodes**: Select each node and adjust its parameters in the Parameters Dock.
-5. **View Output**: Use the Image Viewer Dock to see the results of your image processing workflow.
+# Конкретный тест
+pytest tests/unit/test_nodes.py::test_blur_node
+```
 
-For more detailed information and advanced usage, please refer to the source code and included comments.
+## 📖 Документация
 
-### Contact and Support
+- [Руководство пользователя](docs/user_guide.md)
+- [API Reference](docs/api_reference.md)
+- [Создание плагинов](docs/plugin_development.md)
+- [Архитектура](docs/architecture.md)
 
-For issues, suggestions, or contributions, please contact the developer or create an issue in the project's repository.
+## 🤝 Вклад в проект
 
-[![Mutable.ai Auto Wiki](https://img.shields.io/badge/Auto_Wiki-Mutable.ai-blue)](https://wiki.mutable.ai/Topl1nk/ImageFacyory)
+Мы приветствуем вклад сообщества! Пожалуйста, ознакомьтесь с [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Для разработчиков
+
+```bash
+# Клонируем и настраиваем среду разработки
+git clone https://github.com/pixelflow/studio.git
+cd studio
+
+# Устанавливаем pre-commit hooks
+pre-commit install
+
+# Запускаем линтеры
+black src tests
+isort src tests
+mypy src
+
+# Запускаем тесты
+pytest
+```
+
+## 📊 Производительность
+
+- ⚡ Асинхронная обработка изображений
+- 🧵 Многопоточность для CPU-intensive операций
+- 💾 Ленивая загрузка и умное кэширование
+- 🔄 Инкрементальное обновление графа
+
+## 🎯 Roadmap
+
+- [ ] **v1.1**: Поддержка видео обработки
+- [ ] **v1.2**: Интеграция с AI/ML моделями
+- [ ] **v1.3**: Облачная синхронизация проектов
+- [ ] **v1.4**: Collaborative editing
+- [ ] **v2.0**: Веб-версия приложения
+
+## 📄 Лицензия
+
+Этот проект лицензирован под MIT License - см. [LICENSE](LICENSE) файл.
+
+## 🙏 Благодарности
+
+- Qt Team за отличный фреймворк
+- Blender Foundation за вдохновение в UX
+- Открытое сообщество Python за amazing ecosystem
+
+---
+
+**🌟 Если проект полезен, поставьте звездочку!**

@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "dcc3d01a-83b6-457d-9d3e-05bf7665fe80",
+      "name": "Image Preview",
+      "description": "Display an image preview directly in the node",
+      "category": "Input/Output",
+      "class_name": "ImagePreviewNode",
+      "position": {
+        "x": -619,
+        "y": -78
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "INPUT",
+          "description": "Image to preview",
+          "value": null,
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Passthrough image",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    }
+  ],
+  "connections": []
+}

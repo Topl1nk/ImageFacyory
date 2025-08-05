@@ -1,0 +1,256 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "090fc746-f974-421c-bd06-a4df0d87e747",
+      "name": "Brightness/Contrast",
+      "description": "Adjust brightness and contrast",
+      "category": "Color",
+      "class_name": "BrightnessContrastNode",
+      "position": {
+        "x": -418,
+        "y": 15
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "INPUT",
+          "description": "Input image",
+          "value": null,
+          "is_multiple": false
+        },
+        "brightness": {
+          "name": "brightness",
+          "type": "FLOAT",
+          "direction": "INPUT",
+          "description": "Brightness factor",
+          "value": 1.83,
+          "is_multiple": false
+        },
+        "contrast": {
+          "name": "contrast",
+          "type": "FLOAT",
+          "direction": "INPUT",
+          "description": "Contrast factor",
+          "value": 1.79,
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Color-adjusted image",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    },
+    {
+      "id": "72072112-12c6-4afb-9780-1606b8c3fd70",
+      "name": "Load Image",
+      "description": "Load an image from a file path",
+      "category": "Input/Output",
+      "class_name": "LoadImageNode",
+      "position": {
+        "x": -551,
+        "y": 59
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "path": {
+          "name": "path",
+          "type": "STRING",
+          "direction": "INPUT",
+          "description": "File path to image",
+          "value": "test_images/test_image.png",
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Loaded image",
+          "value": null,
+          "is_multiple": true
+        },
+        "width": {
+          "name": "width",
+          "type": "INT",
+          "direction": "OUTPUT",
+          "description": "Image width",
+          "value": null,
+          "is_multiple": true
+        },
+        "height": {
+          "name": "height",
+          "type": "INT",
+          "direction": "OUTPUT",
+          "description": "Image height",
+          "value": null,
+          "is_multiple": true
+        },
+        "filename": {
+          "name": "filename",
+          "type": "STRING",
+          "direction": "OUTPUT",
+          "description": "Filename without path",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    },
+    {
+      "id": "aae479ad-51dc-4b8f-a2d1-71684bf3491d",
+      "name": "Save Image",
+      "description": "Save an image to a file path",
+      "category": "Input/Output",
+      "class_name": "SaveImageNode",
+      "position": {
+        "x": 45,
+        "y": 44
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "INPUT",
+          "description": "Image to save",
+          "value": null,
+          "is_multiple": false
+        },
+        "path": {
+          "name": "path",
+          "type": "STRING",
+          "direction": "INPUT",
+          "description": "File path to save to",
+          "value": "test_output/processed_output.png",
+          "is_multiple": false
+        },
+        "quality": {
+          "name": "quality",
+          "type": "INT",
+          "direction": "INPUT",
+          "description": "JPEG quality (1-100)",
+          "value": 100,
+          "is_multiple": false
+        },
+        "format": {
+          "name": "format",
+          "type": "STRING",
+          "direction": "INPUT",
+          "description": "Image format (PNG, JPEG, etc.)",
+          "value": "PNG",
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "success": {
+          "name": "success",
+          "type": "BOOL",
+          "direction": "OUTPUT",
+          "description": "True if saved successfully",
+          "value": null,
+          "is_multiple": true
+        },
+        "saved_path": {
+          "name": "saved_path",
+          "type": "STRING",
+          "direction": "OUTPUT",
+          "description": "Actual path where file was saved",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "61f4b33d-f1bf-4976-b092-c210be59cca1",
+      "output_pin_id": "f5f27f60-f3d6-41d5-a6b9-77c349d7dfe1",
+      "input_pin_id": "b681f46f-5381-4828-844f-046a722417ca",
+      "output_node_id": "72072112-12c6-4afb-9780-1606b8c3fd70",
+      "input_node_id": "090fc746-f974-421c-bd06-a4df0d87e747",
+      "output_pin_name": "exec",
+      "input_pin_name": "exec"
+    },
+    {
+      "id": "57ff678d-0826-4368-a230-3e51eee60784",
+      "output_pin_id": "2b3e2436-3ec3-48d8-99bb-e1dba7c6f245",
+      "input_pin_id": "5c0f502c-4e88-4424-888b-0291bce4d747",
+      "output_node_id": "72072112-12c6-4afb-9780-1606b8c3fd70",
+      "input_node_id": "090fc746-f974-421c-bd06-a4df0d87e747",
+      "output_pin_name": "image",
+      "input_pin_name": "image"
+    },
+    {
+      "id": "b132dde7-180f-4ef6-bc71-f2dc168c2168",
+      "output_pin_id": "d8e21cbb-ec1e-4a9c-8028-01039e04e8f7",
+      "input_pin_id": "efec81fa-4924-407b-871e-a69eb8c79d8f",
+      "output_node_id": "090fc746-f974-421c-bd06-a4df0d87e747",
+      "input_node_id": "aae479ad-51dc-4b8f-a2d1-71684bf3491d",
+      "output_pin_name": "exec",
+      "input_pin_name": "exec"
+    },
+    {
+      "id": "5ac1a385-e3cd-4266-bb37-09c63d707cfa",
+      "output_pin_id": "515491df-35cc-4875-b59f-d7d9ee785551",
+      "input_pin_id": "31b6f849-2687-4a42-933a-c7bdc518aa33",
+      "output_node_id": "090fc746-f974-421c-bd06-a4df0d87e747",
+      "input_node_id": "aae479ad-51dc-4b8f-a2d1-71684bf3491d",
+      "output_pin_name": "image",
+      "input_pin_name": "image"
+    }
+  ]
+}

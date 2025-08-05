@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "nodes": [
+    {
+      "id": "54eec5d9-06e1-44c9-9ee6-d69e45e074e8",
+      "name": "Blur",
+      "description": "Apply Gaussian blur to an image",
+      "category": "Filter",
+      "class_name": "BlurNode",
+      "position": {
+        "x": -310,
+        "y": -5
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "INPUT",
+          "description": "Input image",
+          "value": null,
+          "is_multiple": false
+        },
+        "radius": {
+          "name": "radius",
+          "type": "FLOAT",
+          "direction": "INPUT",
+          "description": "Blur radius",
+          "value": 2.0,
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Filtered image",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    },
+    {
+      "id": "428d422c-65fa-4586-98e7-1bc2bd84ec45",
+      "name": "Sharpen",
+      "description": "Sharpen an image",
+      "category": "Filter",
+      "class_name": "SharpenNode",
+      "position": {
+        "x": -74,
+        "y": 39
+      },
+      "input_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "INPUT",
+          "description": "Execute this node",
+          "value": null,
+          "is_multiple": false
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "INPUT",
+          "description": "Input image",
+          "value": null,
+          "is_multiple": false
+        },
+        "strength": {
+          "name": "strength",
+          "type": "FLOAT",
+          "direction": "INPUT",
+          "description": "Sharpen strength",
+          "value": 1.0,
+          "is_multiple": false
+        }
+      },
+      "output_pins": {
+        "exec": {
+          "name": "exec",
+          "type": "EXEC",
+          "direction": "OUTPUT",
+          "description": "Execution output",
+          "value": null,
+          "is_multiple": true
+        },
+        "image": {
+          "name": "image",
+          "type": "IMAGE",
+          "direction": "OUTPUT",
+          "description": "Filtered image",
+          "value": null,
+          "is_multiple": true
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "af5aaced-179d-4e57-8424-945260ea57f3",
+      "output_pin_id": "bb8d96ca-69c6-4c59-951e-65c6b645284c",
+      "input_pin_id": "007d62ee-5a7b-4f51-afc7-d5b4d5698b52",
+      "output_node_id": "54eec5d9-06e1-44c9-9ee6-d69e45e074e8",
+      "input_node_id": "428d422c-65fa-4586-98e7-1bc2bd84ec45",
+      "output_pin_name": "exec",
+      "input_pin_name": "exec"
+    },
+    {
+      "id": "9e2780b0-1879-4e68-bc1c-7549d2609f5d",
+      "output_pin_id": "5c9e1300-a95f-45cb-8616-de29077fbd75",
+      "input_pin_id": "2b01cb33-48d6-43d5-ac80-c833a89f142d",
+      "output_node_id": "54eec5d9-06e1-44c9-9ee6-d69e45e074e8",
+      "input_node_id": "428d422c-65fa-4586-98e7-1bc2bd84ec45",
+      "output_pin_name": "image",
+      "input_pin_name": "image"
+    }
+  ]
+}
